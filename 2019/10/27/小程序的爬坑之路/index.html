@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8">
+	<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scaleable=0" name="viewport">
+	<title>武晓雄的个人博客</title>
+	<link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" href="/css/third%20party/jquery.fancybox.css">
+	<link rel="icon" href="/images/avatar.gif">
+	<link href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+</head>
+	<body>
+		<header class="header">
+	<div class="header_top">
+		<span class="theme">
+			<i class="fa fa-bars"></i> 
+			<a href="https://github.com/wagagaa" target="_blank" rel="noopener">
+				github
+			</a>	
+		</span>
+		<nav class="navbar">
+			<ul class="menu">
+				
+					<li class="menu-item">
+						<i class="fa fa-"></i>
+						<a href="/" class="menu-item-link">
+							首页
+						</a>
+					</li>
+				
+					<li class="menu-item">
+						<i class="fa fa-"></i>
+						<a href="/archives" class="menu-item-link">
+							历程
+						</a>
+					</li>
+				
+					<li class="menu-item">
+						<i class="fa fa-"></i>
+						<a href="/tags" class="menu-item-link">
+							TAGS
+						</a>
+					</li>
+				
+					<li class="menu-item">
+						<i class="fa fa-"></i>
+						<a href="/about" class="menu-item-link">
+							关于我
+						</a>
+					</li>
+					
+			</ul>
+		</nav>
+	</div>
+	<i id="homelink" data-link="http://yoursite.com/"></i>
+	<div class="header_bottom">
+		<div class="blog-title">
+			<a href="/" class="logo">武晓雄</a>
+			<div class="descrs">
+				<div class="descr">个人博客</div>
+				<div class="descr">" Love makes the heart grow fonder "</div>
+			</div>
+		</div>
+	</div>
+</header>
+
+		<main class="main">
+			<section class="posts">
+	<article class="post_full"> 
+		<h1 class="post-title">
+			<div class="post-title-link">
+				小程序的爬坑之路
+			</div>
+		</h1>
+		
+		<div class="post-info">
+			<div class="post-date">
+					<i class="fa fa-calendar"></i>&nbsp2019-10-27&nbsp&nbsp&nbsp
+			</div>
+			
+					<span class="post-words">
+						<i class="fa fa-pencil-square-o"></i>&nbsp718&nbspwords&nbsp&nbsp
+					</span>
+					<span class="post-time">
+						<i class="fa fa-clock-o"></i>&nbsp2 mins&nbsp&nbsp&nbsp
+					</span>
+			
+			<div class="post-tags">
+				
+    
+        <i class="fa fa-tags"></i>  <a href="/tags/小程序/"> 小程序</a> <a href="/tags/新知识/"> 新知识</a>
+    
+			</div>
+		</div>
+		<div class="post-content">
+			<p>对开发中小程序遇到的坑做一个记录</p>
+<a id="more"></a>
+
+<h2 id="手机端屏幕四个圆拐角的配置问题"><a href="#手机端屏幕四个圆拐角的配置问题" class="headerlink" title="手机端屏幕四个圆拐角的配置问题"></a>手机端屏幕四个圆拐角的配置问题</h2><p>描述：设置的bottom的距离是离屏幕底部的距离，想要设置为离屏幕圆角上沿的距离</p>
+<pre><code>办法：添给元素添加数据：padding-bottom: env(safe-area-inset-bottom);</code></pre><h2 id="自定义tab栏问题"><a href="#自定义tab栏问题" class="headerlink" title="自定义tab栏问题"></a>自定义tab栏问题</h2><p>使用原因：原生tab栏满足不了UI需求</p>
+<h3 id="问题1-自定义菜单栏在7-0-0之后的微信版本正常显示"><a href="#问题1-自定义菜单栏在7-0-0之后的微信版本正常显示" class="headerlink" title="问题1. 自定义菜单栏在7.0.0之后的微信版本正常显示"></a>问题1. 自定义菜单栏在7.0.0之后的微信版本正常显示</h3><pre><code>获取微信版本，最兼容性处理。低版本让更新。否则直接进入的话，底部的tab栏会在其他页面显示，遮挡页面影响使用。</code></pre><h3 id="问题2-自定义的tab点击的时候会有图标显示延后的问题"><a href="#问题2-自定义的tab点击的时候会有图标显示延后的问题" class="headerlink" title="问题2. 自定义的tab点击的时候会有图标显示延后的问题"></a>问题2. 自定义的tab点击的时候会有图标显示延后的问题</h3><p>在tab组件中做处理</p>
+<pre><code>&lt;cover-view class=&quot;tab-bar&quot;&gt;
+  &lt;cover-view class=&quot;tab-bar-border&quot;&gt;&lt;/cover-view&gt;
+  &lt;cover-view wx:for=&quot;{{list}}&quot; wx:key=&quot;index&quot; class=&quot;tab-bar-item&quot; data-path=&quot;{{item.pagePath}}&quot; data-index=&quot;{{index}}&quot; bindtap=&quot;switchTab&quot;&gt;
+    &lt;cover-image class=&quot;imageicon&quot; src=&quot;{{selected === index ? item.selectedIconPath : item.iconPath}}&quot;&gt;&lt;/cover-image&gt;
+    &lt;cover-view style=&quot;color: {{selected === index ? selectedColor : color}}&quot;&gt;{{item.text}}&lt;/cover-view&gt;
+  &lt;/cover-view&gt;
+&lt;/cover-view&gt;
+
+methods: {
+    switchTab(e) {
+        const data = e.currentTarget.dataset
+        const url = data.path
+        console.log(e.currentTarget.dataset)
+        wx.switchTab({url})
+        // this.setData({
+        //   selected: data.index
+        // })
+    }
+}</code></pre><h2 id="canvas的上层元素兼容性"><a href="#canvas的上层元素兼容性" class="headerlink" title="canvas的上层元素兼容性"></a>canvas的上层元素兼容性</h2><p>描述：用cover-view官方给的这些元素包裹，有时候在iso上出现按钮的显示问题，或者透明元素（button-AAA）的不出现区块的问题。</p>
+<pre><code>办法：AAA的元素添加0.1的opacity。文字也得有。</code></pre><p>注意：canvas一定要在真机上多看看。</p>
+<h2 id="富文本转化为小程序"><a href="#富文本转化为小程序" class="headerlink" title="富文本转化为小程序"></a>富文本转化为小程序</h2><pre><code>引入wxParse组件
+github地址：https://github.com/icindy/wxParse</code></pre><h2 id="使用自定义头部"><a href="#使用自定义头部" class="headerlink" title="使用自定义头部"></a>使用自定义头部</h2><pre><code>json-----&quot;navigationStyle&quot;:&quot;custom&quot;</code></pre><ul>
+<li>建议自定义头部不要添加搜索。</li>
+<li>因为搜索往往对应的要与右侧的胶囊保持水平对齐（需求），现在各种刘海屏的手机，适配存在问题</li>
+</ul>
+<ul>
+<li>wx.getMenuButtonBoundingClientRect() 获取菜单按钮（右上角胶囊按钮）的布局位置信息。坐标信息以屏幕左上角为原点。</li>
+<li>这个参数可以获取胶囊位置，实现上部边缘对齐。如果是居中对齐的话，就不能准确定位了，因为每个手机的胶囊按钮大小高度不一致。</li>
+</ul>
+<h2 id="wxss中的背景图片无法显示"><a href="#wxss中的背景图片无法显示" class="headerlink" title="wxss中的背景图片无法显示"></a>wxss中的背景图片无法显示</h2><p>图片为本地图片会发生。解决办法：</p>
+<ul>
+<li>图片使用base64的格式，或者是线上地址（不建议使用）</li>
+<li>直接在wxml里面代码块直接添加背景图，开发者工具可以显示，真机不显示（不建议使用）（背景图是线上地址真机可以）</li>
+<li>布局解决，同级加image（你要加的背景图），设置absolute，z-index=-1；当前元素relative；（建议使用）</li>
+</ul>
+
+		</div>
+		<div class="post-nav">
+			<div class="post-nav-prev">
+				
+					<a href="/2019/10/27/hello-world/" rel="prev" title="Hello World">
+						<i class="fa fa-angle-double-left"></i>&nbspHello World
+					</a>
+					
+			</div>
+			<div class="post-nav-next">
+		      	
+			      	<a href="/2019/10/27/%E5%B9%B3%E6%97%B6%E7%9A%84%E9%9B%B6%E7%A2%8E%E8%AE%B0%E5%BD%95/" rel="next" title="平时的零碎记录">
+			        	平时的零碎记录&nbsp<i class="fa fa-angle-double-right"></i>
+			      	</a>
+			      	
+		    </div>
+		    <div class="clear"></div>
+		</div>		
+</article>
+
+	<div class="post-toc">
+		<div class="toc-top">
+			<i class="fa fa-th-large"></i>Article Catalog
+		</div>
+		<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#手机端屏幕四个圆拐角的配置问题"><span class="toc-text">手机端屏幕四个圆拐角的配置问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#自定义tab栏问题"><span class="toc-text">自定义tab栏问题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#问题1-自定义菜单栏在7-0-0之后的微信版本正常显示"><span class="toc-text">问题1. 自定义菜单栏在7.0.0之后的微信版本正常显示</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#问题2-自定义的tab点击的时候会有图标显示延后的问题"><span class="toc-text">问题2. 自定义的tab点击的时候会有图标显示延后的问题</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#canvas的上层元素兼容性"><span class="toc-text">canvas的上层元素兼容性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#富文本转化为小程序"><span class="toc-text">富文本转化为小程序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#使用自定义头部"><span class="toc-text">使用自定义头部</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#wxss中的背景图片无法显示"><span class="toc-text">wxss中的背景图片无法显示</span></a></li></ol>
+	</div>
+
+
+
+
+
+
+
+
+</section>	
+
+		</main>
+		<footer class="footer">
+	<div class="footer-info">
+		<p>
+			Copyright © 2018 - 2019 My Blog
+		</p>
+	</div>
+</footer>
+		<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="/js/navbar.js"></script>
+<script src="/js/pace.min.js"></script>
+<script src="/js/code.js"></script>
+<script src="/js/load.js"></script>
+<script src="/js/jquery.fancybox.js"></script>
+<script src="/js/jquery.fancyboxStart.js"></script>
+<script src="/js/search.js"></script>
+
+	
+		<script src="/js/toc.js"></script>
+		<script src="/js/jquery.toTop.js"></script>
+	
+
+
+	<script src="https://unpkg.com/vanilla-back-to-top@7.2.0/dist/vanilla-back-to-top.min.js"></script>
+	<script src="/js/IndexToTop.js"></script>
+
+
+	<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid="></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	</body>	
+</html>	

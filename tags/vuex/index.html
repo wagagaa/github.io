@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+	<head>
+	<meta http-equiv="content-type" content="text/html; charset=utf-8">
+	<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scaleable=0" name="viewport">
+	<title>武晓雄的个人博客</title>
+	<link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" href="/css/third%20party/jquery.fancybox.css">
+	<link rel="icon" href="/images/avatar.gif">
+	<link href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+</head>
+	<body>
+		<header class="header">
+	<div class="header_top">
+		<span class="theme">
+			<i class="fa fa-bars"></i> 
+			<a href="https://github.com/wagagaa" target="_blank" rel="noopener">
+				github
+			</a>	
+		</span>
+		<nav class="navbar">
+			<ul class="menu">
+				
+					<li class="menu-item">
+						<i class="fa fa-"></i>
+						<a href="/" class="menu-item-link">
+							首页
+						</a>
+					</li>
+				
+					<li class="menu-item">
+						<i class="fa fa-"></i>
+						<a href="/archives" class="menu-item-link">
+							历程
+						</a>
+					</li>
+				
+					<li class="menu-item">
+						<i class="fa fa-"></i>
+						<a href="/tags" class="menu-item-link">
+							TAGS
+						</a>
+					</li>
+				
+					<li class="menu-item">
+						<i class="fa fa-"></i>
+						<a href="/about" class="menu-item-link">
+							关于我
+						</a>
+					</li>
+					
+			</ul>
+		</nav>
+	</div>
+	<i id="homelink" data-link="http://yoursite.com/"></i>
+	<div class="header_bottom">
+		<div class="blog-title">
+			<a href="/" class="logo">武晓雄</a>
+			<div class="descrs">
+				<div class="descr">个人博客</div>
+				<div class="descr">" Love makes the heart grow fonder "</div>
+			</div>
+		</div>
+	</div>
+</header>
+
+		<main class="main">
+			<div class="tag-page-container">
+     <div class="tag-page-title">
+     	<i class="fa fa-tag fa-lg"></i><h2 class="tag_title">vuex</h2>
+     </div>
+     <div class="tag-page-cards">
+          
+             <section class="posts">
+                <article class="post_full post_except"> 
+		<h1 class="post-title">
+			<a class="post-title-link" href="/
+				2019/11/05/vuex记录/">vuex记录
+			</a>
+		</h1>
+		
+		<div class="post-info">
+			<div class="post-date">
+					<i class="fa fa-calendar"></i>&nbsp2019-11-05&nbsp&nbsp&nbsp
+			</div>
+			
+					<span class="post-words">
+						<i class="fa fa-pencil-square-o"></i>&nbsp283&nbspwords&nbsp&nbsp
+					</span>
+					<span class="post-time">
+						<i class="fa fa-clock-o"></i>&nbsp1 mins&nbsp&nbsp&nbsp
+					</span>
+			
+		</div>		
+		<div class="post-content">
+			<h2 id="vuex解决的问题"><a href="#vuex解决的问题" class="headerlink" title="vuex解决的问题"></a>vuex解决的问题</h2><ul>
+<li>vue中各个组件之间传值太痛苦，在vue中我们可以使用vuex来保存我们需要管理的状态值，值一旦被修改，所有引用该值的地方就会自动更新</li>
+<li>state 数据存储</li>
+<li>getter state的计算属性</li>
+<li>mutation 修改状态（数据层操作）（明确地追踪到状态的变化）</li>
+<li>action 异步操作 （逻辑层操作）</li>
+<li>module 分成一个个模块，方便各个模块的状态管理</li>
+</ul>
+<h2 id="使用操作"><a href="#使用操作" class="headerlink" title="使用操作"></a>使用操作</h2><h3 id="获取定义"><a href="#获取定义" class="headerlink" title="获取定义"></a>获取定义</h3><p>方法一：</p>
+<ul>
+<li>vue：this.$store.data1<br>方法二：</li>
+<li>vue：<pre><code>this.$store.getters.addCount1</code></pre>vuex: <pre><code>getters:(addCount1(state1){
+ return state1.data1+1
+})</code></pre><h3 id="操作vuex的data"><a href="#操作vuex的data" class="headerlink" title="操作vuex的data"></a>操作vuex的data</h3>方法一：</li>
+<li>vue方法里<pre><code>this.$store.commit(&quot;add1&quot;)</code></pre></li>
+<li>vuex:<pre><code>mutations:{
+  add1(state1){
+    state1.data1=state1.data1+1
+  }
+}</code></pre>方法二：（官方建议）</li>
+<li>vue方法：<pre><code>this.$store.dispatch(addFun)</code></pre></li>
+<li>vuex:<pre><code>mutations:{
+  add1(states){
+    state1.data1=state1.data1+1
+  }
+}
+actions:addFun(context){
+ context.commit(&#39;add1&#39;)
+}</code></pre>注：只有 mutation 能动 State</li>
+</ul>
+<p>方法三：</p>
+<pre><code>mutations: {
+    addAge (state) {
+      Vue.set(state.student, &#39;age&#39;, 18)
+      // 或者：
+      // state.student = { ...state.student, age: 18 }
+    }
+}</code></pre><p><strong>扩展</strong></p>
+<ul>
+<li>给vuex的方法传值进去<br>vue:<pre><code>this.$store.dispatch(addFun,10)</code></pre>vuex:<pre><code>mutations:{
+  add1(states,n){
+    state1.data1=state1.data1+1+n
+  }
+}
+actions:addFun(context,n){
+  context.commit(&#39;add1&#39;,n)
+}</code></pre></li>
+<li>辅助函数 mapState、mapGetters、mapActions</li>
+</ul>
+
+		</div>
+		<div class="post-sub_container">
+			<span class="post-tags">				
+				
+    
+        <i class="fa fa-tags"></i>  <a href="/tags/vue/"> vue</a> <a href="/tags/vuex/"> vuex</a>
+    
+			</span>
+			
+		</div>
+</article>
+
+             </section>	
+          
+     </div>
+</div>
+
+
+
+
+		</main>
+		<footer class="footer">
+	<div class="footer-info">
+		<p>
+			Copyright © 2018 - 2019 My Blog
+		</p>
+	</div>
+</footer>
+		<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="/js/navbar.js"></script>
+<script src="/js/pace.min.js"></script>
+<script src="/js/code.js"></script>
+<script src="/js/load.js"></script>
+<script src="/js/jquery.fancybox.js"></script>
+<script src="/js/jquery.fancyboxStart.js"></script>
+<script src="/js/search.js"></script>
+
+
+
+	<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid="></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	</body>	
+</html>	
